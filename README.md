@@ -26,20 +26,20 @@
 
 需要 Python 3.10 以上。我是在 3.13 和 Streamlit 1.66 上测的，更老的版本没试过。
 
-```bash
+bash
 git clone https://github.com/fqqf11/ai-data-analyst-agent.git
 cd ai-data-analyst-agent
 pip install -r requirements.txt
 streamlit run app.py
-```
+
 
 打开 http://localhost:8501，左边填 Key（在 platform.deepseek.com 建），传文件，然后底下提问。要报告点页面下方的 Generate PDF Report。
 
 第一次装依赖会慢几分钟，主要卡在 scipy 和 scikit-learn 的 wheel 上。国内可以换镜像：
 
-```bash
+bash
 pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-```
+
 
 ## 配置
 
@@ -52,7 +52,7 @@ pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ## 代码结构
 
-```text
+text
 app.py          Streamlit 界面：上传、Key、提问、渲染、导出 PDF
 agent.py        主循环：意图判断 → 决策 → 执行 → 回答 → 写记忆
 deepseek.py     DeepSeek 客户端，全项目只从这里调模型
@@ -64,7 +64,6 @@ memory.py       会话历史和分析上下文
 report.py       PDF 报告
 data/           放数据的地方，程序不强制读写
 reports/        生成的图表和报告
-```
 
 依赖单向：`app.py → agent.py → executor.py → tools.py`，`agent.py` 另外用 `deepseek.py`、`prompts.py`、`memory.py`。想改回答风格或规则，基本都在 `prompts.py` 里改。
 
@@ -74,7 +73,7 @@ reports/        生成的图表和报告
 
 确认是分析请求后进循环。模型每轮只返回三种动作之一：`run_python`、`run_sql`、`done`。前两种交给 executor 执行，结果原样塞回下一轮提示词。收到 `done` 后，用同一批结果写最终回答。
 
-```mermaid
+mermaid
 flowchart LR
     Q[问题] --> G{数据分析请求}
     G -- 否 --> R[拒绝]
@@ -84,7 +83,7 @@ flowchart LR
     E1 --> P
     E2 --> P
     P -- done --> A[最终回答]
-```
+
 
 模型不产出数字，只产出代码。数字得从执行结果里来，写回答时也只让引用结果中出现过的值。
 
