@@ -5,6 +5,11 @@ __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
 .DS_Store
+
+# 生成的报告不入库，仓库只留一份示例
 reports/*.pdf
+!reports/example_report.pdf
+
+# 自己用的数据不入库，仓库只留一份样例
 data/*
-!data/.gitkeep
+!data/wine_sample.csv
