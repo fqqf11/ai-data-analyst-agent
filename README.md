@@ -11,6 +11,7 @@
 [![LLM](https://img.shields.io/badge/LLM-DeepSeek-4D6BFE)](https://platform.deepseek.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#贡献)
+[![Stars](https://img.shields.io/github/stars/fqqf11/ai-data-analyst-agent?style=social)](https://github.com/fqqf11/ai-data-analyst-agent)
 
 </div>
 
@@ -121,8 +122,8 @@ sequenceDiagram
 ### 2. 安装
 
 ```bash
-git clone https://github.com/<你的用户名>/<仓库名>.git
-cd <仓库名>
+git clone https://github.com/fqqf11/ai-data-analyst-agent.git
+cd ai-data-analyst-agent
 pip install -r requirements.txt
 ```
 
