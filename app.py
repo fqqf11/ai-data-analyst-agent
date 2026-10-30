@@ -230,6 +230,8 @@ if question:
                             "df": result.result_df,
                             "figure": result.figure_png,
                             "steps": compact_steps,
+                            # 被意图门挡下的轮次没有执行任何工具，不写进报告
+                            "analysis": bool(result.code_steps),
                         }
                     )
                     # 有新分析后旧 PDF 已过期，避免用户下载到上一轮的报告
@@ -250,10 +252,13 @@ if question:
 
 # 报告导出
 def _collect_analyses() -> list[dict]:
-    """把聊天里"有问题 + 有回答"的轮次整理成 report 需要的结构。"""
+    """把聊天里"有问题 + 有回答"的分析轮次整理成 report 需要的结构。"""
     collected: list[dict] = []
     for turn in st.session_state.chat:
         if turn.get("role") != "assistant":
+            continue
+        # 意图门拒绝的轮次没有执行工具，不算分析结果
+        if turn.get("analysis") is False:
             continue
         answer = turn.get("content") or ""
         question_text = turn.get("question") or ""
